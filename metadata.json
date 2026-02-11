@@ -1,5 +1,5 @@
-
 {
-  "name": "Valentine's Proposal",
-  "description": "A minimal, playful, and interactive Valentine's Day proposal app with growing buttons and soft romantic aesthetics."
+  "name": "Valentine's Day Proposal",
+  "description": "A playful, minimal micro-website for a Valentine's Day proposal with interactive scaling buttons and a romantic aesthetic.",
+  "requestFramePermissions": []
 }

@@ -1,35 +1,67 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Will You Be My Valentine?</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Sacramento&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Quicksand', sans-serif;
-            overflow: hidden;
+      body {
+        font-family: 'Quicksand', sans-serif;
+        overflow: hidden;
+      }
+      .font-cursive {
+        font-family: 'Sacramento', cursive;
+      }
+      @keyframes float {
+        0% { 
+          transform: translateY(0px) rotate(0deg); 
+          opacity: 0; 
         }
-        .font-cursive {
-            font-family: 'Dancing Script', cursive;
+        10% { opacity: 0.4; }
+        90% { opacity: 0.4; }
+        100% { 
+          transform: translateY(-110vh) rotate(360deg); 
+          opacity: 0; 
         }
+      }
+      @keyframes gradientBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+      .animate-gradient {
+        background: linear-gradient(-45deg, #fff5f5, #fff0f6, #ffe3e3, #fff0f6);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+      }
+      .floating-heart {
+        position: absolute;
+        bottom: -50px;
+        animation: float linear forwards;
+        pointer-events: none;
+      }
     </style>
-<script type="importmap">
+  <script type="importmap">
 {
   "imports": {
-    "react": "https://esm.sh/react@^19.2.4",
-    "react/": "https://esm.sh/react@^19.2.4/",
     "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "framer-motion": "https://esm.sh/framer-motion@^12.34.0"
+    "lucide-react": "https://esm.sh/lucide-react@^0.563.0",
+    "framer-motion": "https://esm.sh/framer-motion@^12.34.0",
+    "react": "https://esm.sh/react@^19.2.4",
+    "canvas-confetti": "https://esm.sh/canvas-confetti@^1.9.4",
+    "react/": "https://esm.sh/react@^19.2.4/"
   }
 }
 </script>
 <link rel="stylesheet" href="/index.css">
 </head>
-<body class="bg-rose-50 overflow-hidden">
+  <body>
     <div id="root"></div>
-<script type="module" src="/index.tsx"></script>
+  <script type="module" src="/index.tsx"></script>
 </body>
 </html>
