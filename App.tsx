@@ -25,17 +25,19 @@ const App: React.FC = () => {
   const translateY = useSpring(useTransform(mouseY, [-300, 300], [-15, 15]), springConfig);
 
   // Sound effects refs
-  const popAudio = useRef<HTMLAudioElement | null>(null);
-  const boingAudio = useRef<HTMLAudioElement | null>(null);
+  const romanticYesAudio = useRef<HTMLAudioElement | null>(null);
+  const romanticNoAudio = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    // Initialize audio objects with playful sound effects
-    popAudio.current = new Audio('https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3');
-    boingAudio.current = new Audio('https://assets.mixkit.co/active_storage/sfx/2565/2565-preview.mp3');
+    // Initialize romantic audio objects
+    // Yes: Graceful Harp Glissando
+    romanticYesAudio.current = new Audio('https://assets.mixkit.co/active_storage/sfx/2019/2019-preview.mp3');
+    // No: Subtle Magical Twinkle
+    romanticNoAudio.current = new Audio('https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3');
     
-    // Configure audio
-    if (popAudio.current) popAudio.current.volume = 0.5;
-    if (boingAudio.current) boingAudio.current.volume = 0.4;
+    // Configure audio volume for a soft experience
+    if (romanticYesAudio.current) romanticYesAudio.current.volume = 0.4;
+    if (romanticNoAudio.current) romanticNoAudio.current.volume = 0.3;
 
     const timer = setTimeout(() => {
       setIsLoading(false);
@@ -78,24 +80,24 @@ const App: React.FC = () => {
   const getNoButtonText = () => noMessages[Math.min(noCount, noMessages.length - 1)];
 
   const handleNoClick = () => {
-    // Play 'Boing' sound
-    if (boingAudio.current) {
-      boingAudio.current.currentTime = 0;
-      boingAudio.current.play().catch(() => {});
+    // Play romantic 'No' twinkle sound
+    if (romanticNoAudio.current) {
+      romanticNoAudio.current.currentTime = 0;
+      romanticNoAudio.current.play().catch(() => {});
     }
     setNoCount(prev => prev + 1);
   };
 
   const handleYesClick = () => {
-    // Play 'Pop' sound
-    if (popAudio.current) {
-      popAudio.current.currentTime = 0;
-      popAudio.current.play().catch(() => {});
+    // Play romantic 'Yes' harp sound
+    if (romanticYesAudio.current) {
+      romanticYesAudio.current.currentTime = 0;
+      romanticYesAudio.current.play().catch(() => {});
     }
     setIsAccepted(true);
     
     // Celebration confetti
-    const duration = 4 * 1000;
+    const duration = 5 * 1000;
     const end = Date.now() + duration;
 
     (function frame() {
@@ -104,7 +106,7 @@ const App: React.FC = () => {
         angle: random(60, 120),
         spread: 80,
         origin: { x: 0.5, y: 1 },
-        colors: ['#FF69B4', '#FFFFFF', '#FF1493', '#FFF0F5', '#FFC0CB'],
+        colors: ['#FFB6C1', '#FFFFFF', '#FF69B4', '#FFF0F5', '#FFC0CB'],
         gravity: 0.8,
         scalar: 1.2
       });
@@ -132,8 +134,8 @@ const App: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Growth scale for Yes button to force overlap
-  const yesScale = 1 + noCount * 0.7;
+  // Growth scale for Yes button to force overlap - aggressive growth to consume space
+  const yesScale = 1 + noCount * 0.75;
 
   // Stagger variants for success screen elements
   const containerVariants = {
@@ -152,7 +154,7 @@ const App: React.FC = () => {
     visible: { 
       opacity: 1, 
       y: 0,
-      transition: { duration: 0.8, ease: [0.23, 1, 0.32, 1] }
+      transition: { duration: 1.2, ease: [0.23, 1, 0.32, 1] }
     }
   };
 
@@ -209,9 +211,9 @@ const App: React.FC = () => {
                   transition={{ duration: 2, repeat: Infinity }}
                   className="text-pink-600 font-bold tracking-widest uppercase text-xs"
                 >
-                  Counting heartbeats...
+                  Capturing a moment...
                 </motion.p>
-                <p className="text-pink-400/60 italic text-sm">Prepping a special question</p>
+                <p className="text-pink-400/60 italic text-sm">Preparing our romantic date</p>
               </div>
             </motion.div>
           ) : !isAccepted ? (
@@ -242,18 +244,18 @@ const App: React.FC = () => {
                   <span className="font-cursive text-7xl text-pink-700 block mt-2">Valentine?</span>
                 </h1>
                 <p className="text-pink-400/80 font-medium uppercase tracking-[0.2em] text-[10px] md:text-xs">
-                  Just for you, from the heart
+                  A question from the depths of my heart
                 </p>
               </div>
 
-              <div className="flex flex-col items-center gap-6 w-full max-w-sm">
-                <div className="relative flex items-center justify-center gap-8 w-full min-h-[160px]">
+              <div className="flex flex-col items-center gap-6 w-full max-w-sm relative">
+                <div className="relative flex items-center justify-center gap-8 w-full min-h-[180px]">
                   {/* No Button - Lower Z Index */}
                   <motion.button
                     layout
                     initial={{ opacity: 1, scale: 1 }}
                     onClick={handleNoClick}
-                    className="z-10 w-24 h-24 md:w-28 md:h-28 flex items-center justify-center text-center bg-white/90 backdrop-blur-sm text-pink-400 border-2 border-pink-100 font-medium rounded-full shadow-md hover:bg-pink-50 hover:border-pink-300 focus:outline-none transition-all p-3 text-xs md:text-sm leading-tight overflow-hidden"
+                    className="z-10 w-24 h-24 md:w-28 md:h-28 flex items-center justify-center text-center bg-white/95 backdrop-blur-sm text-pink-400 border-2 border-pink-100 font-medium rounded-full shadow-md hover:bg-pink-50 hover:border-pink-300 focus:outline-none transition-all p-3 text-xs md:text-sm leading-tight overflow-hidden"
                   >
                     {getNoButtonText()}
                   </motion.button>
@@ -279,7 +281,7 @@ const App: React.FC = () => {
                   <span className="w-1.5 h-1.5 rounded-full bg-pink-300"></span>
                 </div>
                 <p className="text-[10px] text-pink-400/60 uppercase tracking-widest italic font-semibold">
-                  A beautiful journey awaits
+                  A beautiful story is beginning
                 </p>
               </div>
             </motion.div>
@@ -300,72 +302,72 @@ const App: React.FC = () => {
                     y: translateY,
                     transformStyle: "preserve-3d"
                   }}
-                  className="w-48 h-48 md:w-64 md:h-64 rounded-[2.5rem] overflow-hidden shadow-2xl border-[10px] border-white bg-white group cursor-default"
+                  className="w-48 h-48 md:w-64 md:h-64 rounded-[3rem] overflow-hidden shadow-2xl border-[12px] border-white bg-white group cursor-default"
                 >
                   <img 
-                    src="https://picsum.photos/seed/valentine-magic-celebration/800/800" 
+                    src="https://picsum.photos/seed/valentine-romance-dream/800/800" 
                     alt="Romance" 
-                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                    className="w-full h-full object-cover transition-transform duration-2000 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-pink-500/10 to-transparent pointer-events-none" />
                 </motion.div>
                 
                 <motion.div
-                  animate={{ y: [0, -15, 0], rotate: [0, 12, -12, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute -top-10 -left-10 bg-white p-4 rounded-3xl shadow-2xl border border-pink-50 text-pink-500"
+                  animate={{ y: [0, -15, 0], rotate: [0, 15, -15, 0] }}
+                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                  className="absolute -top-12 -left-12 bg-white p-5 rounded-[2rem] shadow-2xl border border-pink-50 text-pink-500"
                 >
-                  <Sparkles size={32} />
+                  <Sparkles size={36} />
                 </motion.div>
                 
                 <motion.div
                   animate={{ y: [0, -12, 0] }}
-                  transition={{ duration: 2.5, repeat: Infinity, delay: 0.3 }}
-                  className="absolute -bottom-8 -right-8 bg-pink-500 text-white p-5 rounded-full shadow-2xl border-4 border-white"
+                  transition={{ duration: 3, repeat: Infinity, delay: 0.5 }}
+                  className="absolute -bottom-10 -right-10 bg-pink-500 text-white p-6 rounded-full shadow-2xl border-4 border-white"
                 >
-                  <Heart fill="white" size={32} />
+                  <Heart fill="white" size={36} />
                 </motion.div>
               </motion.div>
 
               <div className="space-y-4">
                 <motion.h2 
                   variants={itemVariants}
-                  className="text-6xl md:text-8xl font-cursive text-pink-600 drop-shadow-md"
+                  className="text-6xl md:text-8xl font-cursive text-pink-600 drop-shadow-md py-2"
                 >
-                  Yay! I'm so happy!
+                  My Heart is Yours!
                 </motion.h2>
                 <motion.p 
                   variants={itemVariants}
-                  className="text-pink-400 font-bold uppercase tracking-[0.4em] text-xs md:text-sm"
+                  className="text-pink-400 font-bold uppercase tracking-[0.5em] text-xs md:text-sm"
                 >
-                  You've made my day complete
+                  I'm over the moon right now
                 </motion.p>
                 <motion.div 
                   variants={itemVariants}
                   className="flex items-center justify-center gap-4 text-pink-300 mt-2"
                 >
-                  <Stars size={18} className="animate-spin-slow" />
-                  <span className="italic font-medium text-lg">February 14th is a date!</span>
-                  <Stars size={18} className="animate-spin-slow" />
+                  <Stars size={18} className="animate-spin-slow opacity-60" />
+                  <span className="italic font-medium text-xl">Let's make February 14th magical</span>
+                  <Stars size={18} className="animate-spin-slow opacity-60" />
                 </motion.div>
               </div>
 
               <motion.div variants={itemVariants} className="pt-6">
                 <motion.button
-                  whileHover={{ scale: 1.05, boxShadow: "0 25px 30px -5px rgb(244 114 182 / 0.4)" }}
+                  whileHover={{ scale: 1.05, boxShadow: "0 25px 40px -5px rgb(244 114 182 / 0.5)" }}
                   whileTap={{ scale: 0.95 }}
-                  className="flex items-center gap-3 bg-gradient-to-br from-pink-500 to-rose-600 text-white py-5 px-14 rounded-full shadow-2xl font-bold transition-all text-xl group"
+                  className="flex items-center gap-3 bg-gradient-to-br from-pink-400 to-rose-500 text-white py-5 px-16 rounded-full shadow-2xl font-bold transition-all text-xl group"
                 >
                   <Heart className="fill-white transition-transform group-hover:scale-125 group-hover:rotate-6" size={24} />
-                  See You Soon!
+                  You Made My Day!
                 </motion.button>
               </motion.div>
               
               <motion.p 
                 variants={itemVariants}
-                className="text-[11px] text-pink-300 uppercase tracking-widest mt-6 opacity-60 font-semibold"
+                className="text-[11px] text-pink-300 uppercase tracking-widest mt-8 opacity-60 font-semibold"
               >
-                Let the love bloom
+                Everything is more beautiful now
               </motion.p>
             </motion.div>
           )}
@@ -373,18 +375,18 @@ const App: React.FC = () => {
       </main>
 
       {/* Atmospheric Decorations */}
-      <div className="absolute top-0 left-0 p-10 text-pink-200/30 pointer-events-none hidden md:block">
-        <Stars size={56} />
+      <div className="absolute top-0 left-0 p-12 text-pink-200/20 pointer-events-none hidden md:block">
+        <Stars size={64} />
       </div>
-      <div className="absolute bottom-0 right-0 p-10 text-pink-200/30 pointer-events-none hidden md:block">
-        <Send size={56} className="rotate-12" />
+      <div className="absolute bottom-0 right-0 p-12 text-pink-200/20 pointer-events-none hidden md:block">
+        <Send size={64} className="rotate-12" />
       </div>
       
-      <div className="absolute top-1/4 right-12 text-pink-300/20 pointer-events-none animate-pulse">
-        <Sparkles size={40} />
+      <div className="absolute top-1/4 right-16 text-pink-300/15 pointer-events-none animate-pulse">
+        <Sparkles size={48} />
       </div>
-      <div className="absolute bottom-1/4 left-12 text-pink-300/20 pointer-events-none animate-pulse" style={{ animationDelay: '1.2s' }}>
-        <Sparkles size={28} />
+      <div className="absolute bottom-1/4 left-16 text-pink-300/15 pointer-events-none animate-pulse" style={{ animationDelay: '1.5s' }}>
+        <Sparkles size={32} />
       </div>
     </div>
   );
